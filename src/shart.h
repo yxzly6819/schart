@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define max(a,b) ((a)>(b)?a:b)
 
@@ -52,7 +53,7 @@ const char* COLOR_RESET = "\033[0m";
 #define BUF_HOR 1280
 #define BUF_VER 80
 
-#define PILLAR_WIDE 2
+#define PILLAR_WIDE 4
 #define PILLAR_HEIGHT 30
 
 char screen_buf[BUF_VER][BUF_HOR] = {};
@@ -62,9 +63,15 @@ static inline void draw_blank(const char* color){
     return;
 }
 
+void clear_screen() {
+    printf("\033[2J\033[H");
+    fflush(stdout);
+}
 
 int draw_chart(int* numbers, int n){
     memset(screen_buf, 0, sizeof(screen_buf));
+
+    clear_screen();
 
     int max_number = 0;
     double* ratio_numbers = malloc(sizeof(double) * n);
@@ -74,7 +81,6 @@ int draw_chart(int* numbers, int n){
 
     for (int i = 0; i < n; ++i){
         ratio_numbers[i] = (double)numbers[i] / (double)max_number;
-        printf("%lf\n",ratio_numbers[i]);
     }
 
     int cursors[BUF_VER] = {0};
@@ -84,16 +90,18 @@ int draw_chart(int* numbers, int n){
             double ratio_pillar = (double)(PILLAR_HEIGHT - i) / (double)PILLAR_HEIGHT;
             
             int written = 0;
+            for (int k = 0; k < PILLAR_WIDE; ++k){
+                if (ratio_numbers[j] > ratio_pillar){
+                    written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[1],COLOR_RESET);
+                    cursors[i] += written;
+                
+                }
+                else{
+                    written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[2],COLOR_RESET);
+                    cursors[i] += written;
+                }
+            }
             
-            if (ratio_numbers[j] > ratio_pillar){
-                printf("Printed %d \n", numbers[j]);
-                written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[1],COLOR_RESET);
-            }
-            else{
-                written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[2],COLOR_RESET);
-            }
-
-            cursors[i] += written;
         }
     }
     fflush(stdout);
@@ -102,5 +110,12 @@ int draw_chart(int* numbers, int n){
     }
 
     return 0;
+}
+
+void delay_ms(int ms) {
+    struct timespec ts;
+    ts.tv_sec = ms / 1000;
+    ts.tv_nsec = (ms % 1000) * 1000000;
+    nanosleep(&ts, NULL);
 }
 #endif 
