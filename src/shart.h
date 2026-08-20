@@ -1,10 +1,10 @@
 #ifndef SHART_H
 #define SHART_H
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<time.h>
+#include"common.h"
+#include"debug.h"
+
+
 
 #define max(a,b) ((a)>(b)?a:b)
 
@@ -50,18 +50,12 @@ const char* COLOR_RESET = "\033[0m";
 
 
 
-#define BUF_HOR 1280
-#define BUF_VER 80
-
-#define PILLAR_WIDE 4
-#define PILLAR_HEIGHT 30
+#define BUF_HOR 12800
+#define BUF_VER 800
 
 char screen_buf[BUF_VER][BUF_HOR] = {};
 
-static inline void draw_blank(const char* color){
-    printf("%s %s", color, COLOR_RESET);
-    return;
-}
+int screen_wide, screen_height;
 
 void clear_screen() {
     printf("\033[2J\033[H");
@@ -69,6 +63,9 @@ void clear_screen() {
 }
 
 int draw_chart(int* numbers, int n){
+    const int PILLAR_HEIGHT = screen_height;
+    const int PILLAR_WIDE = screen_wide / n ;
+    
     memset(screen_buf, 0, sizeof(screen_buf));
 
     clear_screen();
@@ -117,5 +114,15 @@ void delay_ms(int ms) {
     ts.tv_sec = ms / 1000;
     ts.tv_nsec = (ms % 1000) * 1000000;
     nanosleep(&ts, NULL);
+}
+
+void init_schart(){
+    struct winsize w;
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0) {
+        screen_wide = w.ws_col;
+        screen_height = w.ws_row;
+    } else {
+        panic("ioctl\n");
+    }
 }
 #endif 
