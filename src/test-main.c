@@ -1,4 +1,4 @@
-#include"shart.h"
+#include"schart.h"
 
 
 #include<stdio.h>
@@ -8,7 +8,7 @@
 #define DYNAMIC_TEST
 
 void init_rand(){
-    srandom(time(NULL));
+    srand(time(NULL));
 }
 
 int chosen(int n){
@@ -16,8 +16,10 @@ int chosen(int n){
 }
 
 int main(){
+    init_rand();
+
     int n;
-    scanf("%d", &n);
+    Assert(scanf("%d", &n) != -1, "Give right value\n");
     
     int* numbers = malloc(sizeof(int) * n);
     for (int i = 0; i < n; ++i){
@@ -51,5 +53,8 @@ int main(){
 
     draw_chart(numbers, n);
 
+    free(numbers);
+
+    end_schart();
     return 0;
 }
