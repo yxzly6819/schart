@@ -4,10 +4,8 @@
 #include<stdlib.h>
 
 int main(){
-    for (int i = 0; i < 10; i++){
-        for (int i = 0; i < 10; i++){
-            draw_blank(BG_COLORS[5]);
-        }
-        printf("\n");
-    }
+    int numbers[] = {0, 1, 2, 3, 5};
+
+    draw_chart(numbers, 5);
+
 }

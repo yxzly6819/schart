@@ -5,7 +5,7 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define max(a,b) (a)>(b)?a:b
+#define max(a,b) ((a)>(b)?a:b)
 
 const char* FG_COLORS[16] = {
     "\033[30m",   // 0: 黑色
@@ -53,7 +53,7 @@ const char* COLOR_RESET = "\033[0m";
 #define BUF_VER 80
 
 #define PILLAR_WIDE 2
-#define PILLAR_HEIGHT 80
+#define PILLAR_HEIGHT 30
 
 char screen_buf[BUF_VER][BUF_HOR] = {};
 
@@ -74,20 +74,33 @@ int draw_chart(int* numbers, int n){
 
     for (int i = 0; i < n; ++i){
         ratio_numbers[i] = (double)numbers[i] / (double)max_number;
+        printf("%lf\n",ratio_numbers[i]);
     }
 
     int cursors[BUF_VER] = {0};
+
     for (int i = 0; i < PILLAR_HEIGHT; ++i){
         for (int j = 0; j < n; ++j){
-            double ratio_pillar = 
-                (double)(PILLAR_HEIGHT - i) / (double)PILLAR_HEIGHT;
-            if (ratio_numbers > ratio_pillar){
-
+            double ratio_pillar = (double)(PILLAR_HEIGHT - i) / (double)PILLAR_HEIGHT;
+            
+            int written = 0;
+            
+            if (ratio_numbers[j] > ratio_pillar){
+                printf("Printed %d \n", numbers[j]);
+                written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[1],COLOR_RESET);
             }
             else{
-                
+                written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[2],COLOR_RESET);
             }
+
+            cursors[i] += written;
         }
     }
+    fflush(stdout);
+    for (int i = 0; i < PILLAR_HEIGHT; ++i){
+        printf("%s\n", screen_buf[i]);
+    }
+
+    return 0;
 }
 #endif 
