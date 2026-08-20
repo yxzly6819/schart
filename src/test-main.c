@@ -55,6 +55,5 @@ int main(){
 
     free(numbers);
 
-    end_schart();
     return 0;
 }

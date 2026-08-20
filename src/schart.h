@@ -27,7 +27,7 @@ const char* BG_COLORS[16] = {
 
 const char* COLOR_RESET = "\033[0m";
 
-#define BUF_HOR 51200
+#define BUF_HOR 12800
 #define BUF_VER 800
 
 char screen_buf[BUF_VER][BUF_HOR] = {};
@@ -107,23 +107,20 @@ void init_schart(){
         panic("ioctl\n");
     }
 
-    fflush(stdout);
+    system("clear");
 }
 
-void end_schart(){
-    printf("\033[?25h");
-}
 
-void set_bk_color_number(int n){
-    if (n > 15){
+void schart_set_background_color_number(int n){
+    if (n > 15 || n < 0){
         Log("Number overflow, kept default.\n");
         return;
     }
     bk_color = n;
 }
 
-void set_ft_color_number(int n){
-    if (n > 15){
+void schart_set_pillar_color_number(int n){
+    if (n > 15 || n < 0){
         Log("Number overflow, kept default.\n");
         return;
     }

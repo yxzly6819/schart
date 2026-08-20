@@ -18,4 +18,4 @@ gdb: $(TARGET)
 	gdb $(TARGET)
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf ./build
