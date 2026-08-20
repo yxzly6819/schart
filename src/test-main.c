@@ -3,12 +3,26 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define DYNAMIC_TEST
 
+void init_rand(){
+    srandom(time(NULL));
+}
+
+int chosen(int n){
+    return rand() % n;
+}
+
 int main(){
-    int numbers[] = {5, 4, 3, 2, 1, 3, 8, 3, 5, 2, 7, 1, 0, 5};
-    int n = sizeof(numbers) / sizeof(numbers[0]);
+    int n;
+    scanf("%d", &n);
+    
+    int* numbers = malloc(sizeof(int) * n);
+    for (int i = 0; i < n; ++i){
+        numbers[i] = chosen(n);
+    }
 
     init_schart();
 
@@ -26,7 +40,7 @@ int main(){
             numbers[i] = numbers[min_idx];
             numbers[min_idx] = temp;
             draw_chart(numbers, n);
-            delay_ms(350);
+            delay_ms(250);
         }
 
         
