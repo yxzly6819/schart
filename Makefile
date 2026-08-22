@@ -3,6 +3,8 @@ HEADERS = $(shell find . -name "*.h")
 TARGET = ./build/test
 CFLAGS = -Wall -Werror -g 
 
+INPUT ?= 50
+
 .PHONY: all test clean gdb
 
 all: $(TARGET)
@@ -12,7 +14,7 @@ $(TARGET): $(SRCS) $(HEADERS)
 	gcc $(SRCS) $(CFLAGS) -o $@
 
 test: $(TARGET)
-	$(TARGET)
+	$(TARGET) $(INPUT)
 
 gdb: $(TARGET)
 	gdb $(TARGET)

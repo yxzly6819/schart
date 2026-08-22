@@ -16,7 +16,7 @@ delay_ms(500);
 ```
 ## API
 - `init_schart()` — 获取终端尺寸并清屏，最先调用
-- `draw_chart(int \*numbers, int n)` — 画一帧柱状图
+- `draw_chart(int \numbers, int n)` — 画一帧柱状图
 - `schart_set_pillar_color_number(int idx)` — 柱体颜色，0–15
 - `schart_set_background_color_number(int idx)` — 背景颜色，0–15
 - `delay_ms(int ms)` — 延时

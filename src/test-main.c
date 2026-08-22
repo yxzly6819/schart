@@ -15,11 +15,11 @@ int chosen(int n){
     return rand() % n;
 }
 
-int main(){
+int main(int argc, char* argv[]){
     init_rand();
 
     int n;
-    Assert(scanf("%d", &n) != -1, "Give right value\n");
+    Assert(sscanf(argv[1],"%d", &n) != -1, "Give right argument\n");
     
     int* numbers = malloc(sizeof(int) * n);
     for (int i = 0; i < n; ++i){
@@ -44,12 +44,8 @@ int main(){
             draw_chart(numbers, n);
             delay_ms(250);
         }
-
-        
     }
 #endif
-
-    
 
     draw_chart(numbers, n);
 
