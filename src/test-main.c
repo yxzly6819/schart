@@ -37,17 +37,17 @@ int main(int argc, char* argv[]){
             }
         }
 
+        draw_chart(numbers, n, min_idx);
         if (min_idx != i) {
             int temp = numbers[i];
             numbers[i] = numbers[min_idx];
             numbers[min_idx] = temp;
-            draw_chart(numbers, n);
             delay_ms(250);
         }
     }
 #endif
 
-    draw_chart(numbers, n);
+    draw_chart(numbers, n, -1);
 
     free(numbers);
 

@@ -36,13 +36,14 @@ int screen_wide, screen_height;
 
 int ft_color = 13;
 int bk_color = 4;
+int hl_color = 14;
 
 void home_cursor() {
     printf("\033[H");
     fflush(stdout);
 }
 
-int draw_chart(int* numbers, int n){
+int draw_chart(int* numbers, int n, int high_light){
     const int PILLAR_HEIGHT = screen_height;
     const int PILLAR_WIDE = screen_wide / n ;
 
@@ -71,7 +72,8 @@ int draw_chart(int* numbers, int n){
             int written = 0;
             for (int k = 0; k < PILLAR_WIDE; ++k){
                 if (ratio_numbers[j] > ratio_pillar){
-                    written = sprintf(screen_buf[i] + cursors[i],"%s %s",BG_COLORS[ft_color],COLOR_RESET);
+                    written = sprintf(screen_buf[i] + cursors[i],"%s %s",
+                        (j == high_light) ? BG_COLORS[hl_color]: BG_COLORS[ft_color],COLOR_RESET);
                     cursors[i] += written;
                 
                 }
